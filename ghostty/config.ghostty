@@ -1,0 +1,216 @@
+# ==================================================
+# Ghostty — AI Cockpit
+# Pattern 1
+# ==================================================
+
+# --------------------------------------------------
+# Font
+# --------------------------------------------------
+
+font-family = UDEV Gothic NF
+font-size = 14
+
+# macOSで少しだけ文字を太くする
+font-thicken = true
+font-thicken-strength = 25
+
+
+# --------------------------------------------------
+# Base Colors
+# --------------------------------------------------
+
+# 深い青黒
+background = #080D18
+
+# 少し青みのある白
+foreground = #DCE3F0
+
+
+# --------------------------------------------------
+# Cursor
+# --------------------------------------------------
+
+cursor-color = #7DCFFF
+cursor-style = bar
+cursor-style-blink = true
+
+
+# --------------------------------------------------
+# Selection
+# --------------------------------------------------
+
+selection-background = #243253
+selection-foreground = #FFFFFF
+
+
+# --------------------------------------------------
+# ANSI Palette
+# AI Cockpit / Tokyo Night inspired
+# --------------------------------------------------
+
+# Black
+palette = 0=#151A2D
+
+# Red
+palette = 1=#F7768E
+
+# Green
+palette = 2=#9ECE6A
+
+# Yellow
+palette = 3=#E0AF68
+
+# Blue
+palette = 4=#7AA2F7
+
+# Purple
+palette = 5=#BB9AF7
+
+# Cyan
+palette = 6=#7DCFFF
+
+# White
+palette = 7=#C0CAF5
+
+
+# Bright Black
+palette = 8=#414868
+
+# Bright Red
+palette = 9=#F7768E
+
+# Bright Green
+palette = 10=#9ECE6A
+
+# Bright Yellow
+palette = 11=#E0AF68
+
+# Bright Blue
+palette = 12=#7AA2F7
+
+# Bright Purple
+palette = 13=#BB9AF7
+
+# Bright Cyan
+palette = 14=#7DCFFF
+
+# Bright White
+palette = 15=#E6EDF7
+
+
+# --------------------------------------------------
+# Glass Effect
+# --------------------------------------------------
+
+# 1.0 = 完全不透明
+# 0.80 = しっかり透ける
+background-opacity = 0.80
+
+# macOS blur
+background-blur = 16
+
+
+# --------------------------------------------------
+# Window
+# --------------------------------------------------
+
+# macOSタイトルバーと背景を一体化
+macos-titlebar-style = transparent
+
+# 適度な余白
+window-padding-x = 14
+window-padding-y = 10
+
+# 端数の余白を左右上下で均等化
+window-padding-balance = true
+
+
+# --------------------------------------------------
+# Working Directory
+# --------------------------------------------------
+
+# 新規ウィンドウで現在のディレクトリを引き継ぐ
+window-inherit-working-directory = true
+
+# 新規タブで現在のディレクトリを引き継ぐ
+tab-inherit-working-directory = true
+
+# Splitでも現在のディレクトリを引き継ぐ
+split-inherit-working-directory = true
+
+# フォントサイズも引き継ぐ
+window-inherit-font-size = true
+
+
+# --------------------------------------------------
+# Shell Integration
+# --------------------------------------------------
+
+shell-integration = zsh
+
+# Notify when a long-running command finishes while Ghostty is unfocused.
+notify-on-command-finish = unfocused
+notify-on-command-finish-action = notify
+
+
+# --------------------------------------------------
+# Split Appearance
+# --------------------------------------------------
+
+# Split間の線
+split-divider-color = #27324A
+
+# 非アクティブSplitをほんの少し暗くする
+unfocused-split-opacity = 0.95
+
+# Split間を移動してもZoom状態を維持
+split-preserve-zoom = navigation
+
+
+# --------------------------------------------------
+# Split Keybindings
+# --------------------------------------------------
+
+# 右にSplit
+keybind = cmd+d=new_split:right
+
+# 下にSplit
+keybind = cmd+shift+d=new_split:down
+
+# Split間を移動
+keybind = cmd+alt+left=goto_split:left
+keybind = cmd+alt+right=goto_split:right
+keybind = cmd+alt+up=goto_split:up
+keybind = cmd+alt+down=goto_split:down
+
+# 現在のSplitだけ一時的に最大化
+keybind = cmd+shift+enter=toggle_split_zoom
+
+# Command Palette and font-size controls.
+keybind = cmd+shift+p=toggle_command_palette
+keybind = cmd+equal=increase_font_size:1
+keybind = cmd+minus=decrease_font_size:1
+keybind = cmd+0=reset_font_size
+
+
+# --------------------------------------------------
+# Quick Terminal
+# --------------------------------------------------
+
+# 上から出す
+quick-terminal-position = top
+
+# 画面の42%
+quick-terminal-size = 42%
+
+# 現在操作中のディスプレイ
+quick-terminal-screen = main
+
+# アニメーション
+quick-terminal-animation-duration = 0.18
+
+# 他アプリへ移動したら自動で閉じる
+quick-terminal-autohide = true
+
+# Hammerspoonの Ctrl + Option + Space と競合しない
+keybind = global:ctrl+alt+g=toggle_quick_terminal

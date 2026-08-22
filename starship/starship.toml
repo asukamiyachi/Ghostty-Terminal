@@ -1,0 +1,145 @@
+# ==================================================
+# Starship — AI Cockpit
+# Pattern 1 / Colored
+# ==================================================
+
+add_newline = true
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$package\
+$cmd_duration
+$character
+"""
+
+
+# ==================================================
+# Directory
+# ==================================================
+
+[directory]
+
+# フォルダアイコン + パス
+format = "[󰉋  $path](bold #7DCFFF) "
+
+# 長すぎるパスを省略
+truncation_length = 3
+truncate_to_repo = true
+
+# 読み取り専用
+read_only = " 󰌾"
+read_only_style = "bold #F7768E"
+
+
+# ==================================================
+# Git Branch
+# ==================================================
+
+[git_branch]
+
+symbol = " "
+
+format = "[$symbol](bold #BB9AF7)[$branch](bold #BB9AF7) "
+
+
+# ==================================================
+# Git Status
+# ==================================================
+
+[git_status]
+
+format = "([$all_status$ahead_behind]($style) )"
+
+style = "bold #F7768E"
+
+# ファイル変更
+modified = "●"
+
+# stage済み
+staged = "[+${count}](bold #9ECE6A)"
+
+# 未追跡
+untracked = "[?${count}](bold #E0AF68)"
+
+# 削除
+deleted = "[✕${count}](bold #F7768E)"
+
+# rename
+renamed = "[»${count}](bold #7DCFFF)"
+
+# conflict
+conflicted = "[!${count}](bold #F7768E)"
+
+# GitHubとの差
+ahead = "[⇡${count}](bold #9ECE6A)"
+behind = "[⇣${count}](bold #E0AF68)"
+diverged = "[⇕⇡${ahead_count}⇣${behind_count}](bold #BB9AF7)"
+
+
+# ==================================================
+# Node.js
+# ==================================================
+
+[nodejs]
+
+symbol = " "
+
+format = "[$symbol](bold #9ECE6A)[$version](#9ECE6A) "
+
+detect_extensions = [
+  "js",
+  "mjs",
+  "cjs",
+  "ts",
+  "mts",
+  "cts",
+  "tsx",
+  "jsx"
+]
+
+detect_files = [
+  "package.json",
+  ".node-version"
+]
+
+
+# ==================================================
+# Package
+# ==================================================
+
+[package]
+
+symbol = "󰏗 "
+
+format = "[$symbol](bold #E0AF68)[$version](#E0AF68) "
+
+
+# ==================================================
+# Command Duration
+# ==================================================
+
+[cmd_duration]
+
+# 1.5秒以上かかったコマンドだけ表示
+min_time = 1500
+
+format = "[󰔛 ](bold #E0AF68)[$duration](#E0AF68) "
+
+
+# ==================================================
+# Prompt
+# ==================================================
+
+[character]
+
+# 成功
+success_symbol = "[❯](bold #7DCFFF)"
+
+# エラー
+error_symbol = "[❯](bold #F7768E)"
+
+# Vim command mode
+vimcmd_symbol = "[❮](bold #9ECE6A)"

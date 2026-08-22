@@ -1,0 +1,22 @@
+# Core runtime and terminal tools verified on 2026-08-22.
+brew "node"
+brew "bat"
+brew "eza"
+brew "fd"
+brew "fzf"
+brew "fzf-tab"
+brew "git-delta"
+brew "jq"
+brew "lazygit"
+brew "ripgrep"
+brew "starship"
+brew "zoxide"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+
+# macOS applications and font used by the configuration.
+cask "codex"
+cask "flutter"
+cask "font-udev-gothic-nf"
+cask "ghostty"
+cask "orbstack"

@@ -1,107 +1,20 @@
 # Ghostty Terminal
 
-macOS / Ghostty / zsh を中心にした、日常開発用ターミナル環境の構成メモです。
+再現可能な macOS Apple Silicon 向けの Ghostty + zsh 開発ターミナル環境です。Codex、Hermes、Git、Node.js、Flutterを日常的に使うための設定を、現在正常動作しているMacから記録しています。
 
-## Current status
+## Overview
 
-2026-08-22 時点で、ターミナル環境は正常に動作しています。
+このリポジトリは設定のバックアップと再構築手順を提供します。設定を自動で上書きするインストーラーではありません。導入前に必ず既存dotfilesをバックアップしてください。
 
-### zsh
+## Screenshot
 
-- `zsh -n ~/.zshrc`: 成功
-- 新しい zsh の起動: 成功
-- `zoxide`: 読み込み成功
-- `compinit`: 読み込み成功
-- `fzf-tab`: 読み込み成功
-- Tab キー: `fzf-tab-complete`
-- `cdi` / `lsi`: 利用可能
-- 読み込み順: autosuggestions → Starship → syntax highlighting
-- syntax highlighting は最後に読み込み
+スクリーンショットは現在コミットしていません。
 
-### Ghostty
+## Stack
 
-- `ghostty +validate-config`: 成功
-- 背景透過: `0.80`
-- 背景ぼかし: `16`
-- zsh shell integration: 有効
-- コマンド終了通知: 有効
-- Command Palette: `Cmd + Shift + P`
-- フォント拡大縮小キー: 設定済み
-- Split 操作: 設定済み
-- Quick Terminal: 設定済み
+Ghostty、zsh、Starship、zoxide、compinit、fzf、fzf-tab、zsh-autosuggestions、zsh-syntax-highlighting、eza、bat、ripgrep、fd、jq、lazygit、git-delta、Codex、Hermes。
 
-### CLI / TUI
-
-以下はすべて利用可能です。
-
-- Homebrew (`brew`)
-- Git (`git`)
-- Node.js (`node`)
-- Flutter (`flutter`)
-- Codex (`codex`)
-- Hermes (`hermes`)
-- Starship (`starship`)
-- zoxide (`zoxide`)
-- fzf (`fzf`)
-- eza (`eza`)
-- bat (`bat`)
-- ripgrep (`rg`)
-- fd (`fd`)
-- lazygit (`lazygit`)
-- delta (`delta`)
-- jq (`jq`)
-
-`fzf-tab` は実行ファイルではなく zsh プラグインです。そのため `command -v fzf-tab` で見つからないのは正常です。Homebrew の `fzf-tab 1.3.0` を使用しています。
-
-### Git + delta
-
-```ini
-core.pager = delta
-interactive.diffFilter = delta --color-only
-delta.navigate = true
-delta.side-by-side = false
-delta.line-numbers = true
-```
-
-## Useful commands
-
-### Directory navigation
-
-```bash
-z <keyword>
-```
-
-例:
-
-```bash
-z AI-Hack
-```
-
-### Interactive directory selection
-
-```bash
-cdi
-```
-
-### Interactive listing
-
-```bash
-lsi
-```
-
-`lsi` では一覧を確認しながら矢印キーでディレクトリを選択できます。
-
-### File / code tools
-
-```bash
-eza --icons
-bat <file>
-rg <query>
-fd <name>
-lazygit
-```
-
-## Shell architecture
+## Architecture
 
 ```text
 Ghostty
@@ -120,16 +33,82 @@ CLI / TUI
 └── Hermes
 ```
 
-## Notes
+## Installation
 
-背景透過 `0.80` は見た目を優先した強めの設定です。コードやログの可読性を優先する場合は `0.85〜0.90` が候補です。
+詳細手順は [docs/SETUP.md](docs/SETUP.md) を参照してください。
 
-## Not committed yet
+```bash
+git clone https://github.com/asuka0611/Ghostty-Terminal.git
+cd Ghostty-Terminal
+brew bundle --file=Brewfile
+```
 
-現時点では、ローカルの実ファイルを推測して GitHub に書き込むことは避けています。今後、ローカルの最新版を取得してから以下を追加する想定です。
+Ghostty、UDEV Gothic NF、Homebrew CLIを導入した後、バックアップを作成して設定を配置します。Symlink方式も利用できますが、既存ファイルを先に退避してください。
 
-- `~/.zshrc`
-- `~/.config/ghostty/config.ghostty`
-- `~/.config/starship.toml`
-- 必要に応じて Hammerspoon のターミナル関連設定
-- 再現用の `Brewfile`
+## Keybindings
+
+実際の `ghostty/config.ghostty` から抽出した一覧は [docs/KEYBINDINGS.md](docs/KEYBINDINGS.md) にあります。
+
+| Action | Key |
+| --- | --- |
+| Split right | Cmd + D |
+| Split down | Cmd + Shift + D |
+| Move between splits | Cmd + Option + Arrow |
+| Toggle split zoom | Cmd + Shift + Enter |
+| Command Palette | Cmd + Shift + P |
+| Increase font size | Cmd + = |
+| Decrease font size | Cmd + - |
+| Reset font size | Cmd + 0 |
+| Quick Terminal | Ctrl + Option + G (global) |
+
+## Shell commands
+
+```bash
+z <keyword>       # 履歴ベースのディレクトリ移動
+cdi               # fzfでディレクトリを選択して移動
+lsi               # eza一覧の後に矢印キーでディレクトリ選択
+eza --icons=auto
+bat <file>
+rg <query>
+fd <name>
+lazygit
+git diff           # delta pager
+codex
+hermes
+```
+
+`eza 0.23.5`では `--icons` 単体ではなく `--icons=auto` を使用します。
+
+## Codex / Hermes
+
+以下のコマンドが利用可能であることを前提にしています。認証情報やAPIキーはこのリポジトリに保存しません。
+
+```bash
+codex
+hermes
+```
+
+HermesはHomebrew管理ではなく、現在のMacでは `$HOME/.local/bin/hermes` にあります。インストール方法はこのリポジトリでは固定していません。
+
+## Validation
+
+```bash
+zsh -n ~/.zshrc
+ghostty +validate-config
+
+for cmd in brew git node flutter codex hermes starship zoxide fzf eza bat rg fd lazygit delta jq; do
+  printf '%-12s ' "$cmd"
+  command -v "$cmd" || echo 'NOT FOUND'
+done
+```
+
+## Files
+
+- `ghostty/config.ghostty`: 実際に使用中のGhostty設定
+- `zsh/.zshrc`, `zsh/.zprofile`: 実際に使用中のzsh設定
+- `starship/starship.toml`: 実際に使用中のStarship設定
+- `git/gitconfig.example`: 個人情報を除いたdelta設定例
+- `hammerspoon/terminal.capture.lua`: Ghostty/Terminal用のターミナルキャプチャ部分。既存の`common.key_sequence`モジュールを前提とします
+- `Brewfile`: 現在の再現に必要なHomebrew formula/cask
+
+ライセンスは既存指定がないため、このリポジトリでは未指定です。
