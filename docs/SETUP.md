@@ -7,7 +7,7 @@
 Homebrewを公式手順で導入し、リポジトリをcloneします。
 
 ```bash
-git clone https://github.com/asuka0611/Ghostty-Terminal.git
+git clone https://github.com/asukamiyachi/Ghostty-Terminal.git
 cd Ghostty-Terminal
 brew bundle --file=Brewfile
 ```
