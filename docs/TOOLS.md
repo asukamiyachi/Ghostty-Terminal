@@ -13,6 +13,8 @@
 | delta | Git diffを読みやすくするpager |
 | jq | JSONの検索・整形・抽出 |
 | Starship | Git・Node等を表示するプロンプト |
+| `zsh/aurora/startup.zsh` | Ghosttyだけで表示する軽量AURORA起動HUD。`AURORA_STARTUP=0`で無効化可能 |
+| `zsh/aurora/git-pill.zsh` | `git status --porcelain=v2 --branch`を1回だけ実行し、Starship用のGit状態Pillを出力 |
 | Codex | ターミナルで利用するコーディングエージェントCLI |
 | Hermes | 現在のMacで利用するエージェントCLI |
 

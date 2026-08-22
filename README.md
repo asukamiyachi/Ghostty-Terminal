@@ -18,6 +18,31 @@ Dark Glassを土台に、Electric Cyanを現在地と操作、Neon VioletをGit/
 
 Rainbowは常時使わず、Cyan → Blue → Violet → Pinkを選択状態などの小さなアクセントに限定しています。
 
+## AURORA Startup
+
+新しいローカルGhosttyの対話シェルでは、巨大なASCIIアートではなく、Codex/Hermesの利用可否と現在地を含む小さな起動HUDを表示します。`GHOSTTY_RESOURCES_DIR`を検出に使用するため、SSH、CI、非対話シェルでは表示しません。
+
+一時的に非表示にするには、次のように起動します。
+
+```bash
+AURORA_STARTUP=0 zsh
+```
+
+毎回非表示にする場合は、`.zprofile`など、`.zshrc`より先に読み込む個人設定へ`export AURORA_STARTUP=0`を追加してください。起動時の確認は`command -v codex`と`command -v hermes`だけで、バージョン取得やネットワークアクセスは行いません。
+
+## Dynamic Git Pill
+
+Starshipの標準Gitモジュール2つを重ねず、1つのPowerline型HUD Pillへ統合しています。補助スクリプトは`git status --porcelain=v2 --branch`を1回だけ実行して状態を決めるため、リポジトリ外には表示されません。
+
+| State | 表示例 | Color |
+| --- | --- | --- |
+| Clean | `✓` | Green `#8FF0A4` |
+| Dirty | `+2 ●1 ?3` | Gold `#FFD166` |
+| Ahead | `⇡2` | Cyan `#59E1FF` |
+| Behind | `⇣2` | Gold `#FFD166` |
+| Diverged | `⇕2/1` | Violet `#BE8CFF` |
+| Conflict | `!1` | Red `#FF6384` |
+
 ## Screenshot
 
 スクリーンショットは現在コミットしていません。
@@ -122,6 +147,8 @@ done
 
 - `ghostty/config.ghostty`: 実際に使用中のGhostty設定
 - `zsh/.zshrc`, `zsh/.zprofile`: 実際に使用中のzsh設定
+- `zsh/aurora/startup.zsh`: Ghostty限定の軽量起動HUD
+- `zsh/aurora/git-pill.zsh`: 1回のGit statusから状態を描画するStarship用HUD
 - `starship/starship.toml`: 実際に使用中のStarship設定
 - `git/gitconfig.example`: 個人情報を除いたdelta設定例
 - `hammerspoon/terminal.capture.lua`: Ghostty/Terminal用のターミナルキャプチャ部分。既存の`common.key_sequence`モジュールを前提とします

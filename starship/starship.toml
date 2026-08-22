@@ -7,8 +7,7 @@ add_newline = true
 
 format = """
 $directory\
-$git_branch\
-$git_status\
+${custom.git_pill}\
 $nodejs\
 $package\
 $cmd_duration
@@ -33,23 +32,19 @@ read_only_style = "bold #FF6384"
 # ==================================================
 
 [git_branch]
-
-symbol = " "
-format = "[$symbol](bold #BE8CFF)[$branch](bold #BE8CFF) "
+disabled = true
 
 [git_status]
+disabled = true
 
-format = "([$all_status$ahead_behind]($style) )"
-style = "bold #FFD166"
-modified = "[●${count}](bold #FFD166)"
-staged = "[+${count}](bold #8FF0A4)"
-untracked = "[?${count}](bold #6C9DFF)"
-deleted = "[✕${count}](bold #FF6384)"
-renamed = "[»${count}](bold #59E1FF)"
-conflicted = "[!${count}](bold #FF6384)"
-ahead = "[⇡${count}](bold #8FF0A4)"
-behind = "[⇣${count}](bold #FFD166)"
-diverged = "[⇕⇡${ahead_count}⇣${behind_count}](bold #BE8CFF)"
+# One compact HUD pill; the helper uses a single porcelain-v2 status call.
+[custom.git_pill]
+command = '"$HOME/.config/aurora/git-pill.zsh"'
+when = true
+require_repo = true
+unsafe_no_escape = true
+format = "$output "
+description = "AURORA Git status pill"
 
 # ==================================================
 # Runtime and project metadata
