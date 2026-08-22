@@ -19,8 +19,8 @@
 
 ## Related settings
 
-- `background-opacity = 0.80`
-- `background-blur = 16`
+- `background-opacity = 0.86`
+- `background-blur = 30`
 - `shell-integration = zsh`
 - `notify-on-command-finish = unfocused`
 - `notify-on-command-finish-action = notify`

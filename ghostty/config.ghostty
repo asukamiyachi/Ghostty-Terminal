@@ -1,6 +1,6 @@
 # ==================================================
-# Ghostty — AI Cockpit
-# Pattern 1
+# Ghostty — AURORA COCKPIT
+# Dark Glass / Electric Cyan / Neon Violet
 # ==================================================
 
 # --------------------------------------------------
@@ -12,25 +12,25 @@ font-size = 14
 
 # macOSで少しだけ文字を太くする
 font-thicken = true
-font-thicken-strength = 25
+font-thicken-strength = 16
 
 
 # --------------------------------------------------
 # Base Colors
 # --------------------------------------------------
 
-# 深い青黒
-background = #080D18
+# Void Black
+background = #05070D
 
-# 少し青みのある白
-foreground = #DCE3F0
+# Primary Text
+foreground = #E6EEF8
 
 
 # --------------------------------------------------
 # Cursor
 # --------------------------------------------------
 
-cursor-color = #7DCFFF
+cursor-color = #59E1FF
 cursor-style = bar
 cursor-style-blink = true
 
@@ -39,75 +39,74 @@ cursor-style-blink = true
 # Selection
 # --------------------------------------------------
 
-selection-background = #243253
+selection-background = #223A63
 selection-foreground = #FFFFFF
 
 
 # --------------------------------------------------
 # ANSI Palette
-# AI Cockpit / Tokyo Night inspired
+# AURORA COCKPIT ANSI palette
 # --------------------------------------------------
 
-# Black
-palette = 0=#151A2D
+# Black / Void
+palette = 0=#05070D
 
-# Red
-palette = 1=#F7768E
+# Red / Neon Red
+palette = 1=#FF6384
 
-# Green
-palette = 2=#9ECE6A
+# Green / Success
+palette = 2=#8FF0A4
 
-# Yellow
-palette = 3=#E0AF68
+# Yellow / Solar Gold
+palette = 3=#FFD166
 
-# Blue
-palette = 4=#7AA2F7
+# Blue / Aurora Blue
+palette = 4=#6C9DFF
 
-# Purple
-palette = 5=#BB9AF7
+# Magenta / Neon Violet
+palette = 5=#BE8CFF
 
-# Cyan
-palette = 6=#7DCFFF
+# Cyan / Electric Cyan
+palette = 6=#59E1FF
 
-# White
-palette = 7=#C0CAF5
+# White / Primary Text
+palette = 7=#E6EEF8
 
 
-# Bright Black
-palette = 8=#414868
+# Bright Black / Muted Text
+palette = 8=#5F6E86
 
 # Bright Red
-palette = 9=#F7768E
+palette = 9=#FF8AA4
 
 # Bright Green
-palette = 10=#9ECE6A
+palette = 10=#B3F7BE
 
 # Bright Yellow
-palette = 11=#E0AF68
+palette = 11=#FFE29A
 
 # Bright Blue
-palette = 12=#7AA2F7
+palette = 12=#9AB8FF
 
 # Bright Purple
-palette = 13=#BB9AF7
+palette = 13=#D6B4FF
 
 # Bright Cyan
-palette = 14=#7DCFFF
+palette = 14=#8EEBFF
 
 # Bright White
-palette = 15=#E6EDF7
+palette = 15=#FFFFFF
 
 
 # --------------------------------------------------
 # Glass Effect
 # --------------------------------------------------
 
-# 1.0 = 完全不透明
-# 0.80 = しっかり透ける
-background-opacity = 0.80
+# Dark Glass: readable while allowing a controlled amount of depth.
+background-opacity = 0.86
 
 # macOS blur
-background-blur = 16
+background-blur = 30
 
 
 # --------------------------------------------------
@@ -117,9 +116,9 @@ background-blur = 16
 # macOSタイトルバーと背景を一体化
 macos-titlebar-style = transparent
 
-# 適度な余白
-window-padding-x = 14
-window-padding-y = 10
+# Premium whitespace without making split panes impractical
+window-padding-x = 18
+window-padding-y = 14
 
 # 端数の余白を左右上下で均等化
 window-padding-balance = true
@@ -157,11 +156,11 @@ notify-on-command-finish-action = notify
 # Split Appearance
 # --------------------------------------------------
 
-# Split間の線
-split-divider-color = #27324A
+# Active/inactive pane contrast
+split-divider-color = #315779
 
-# 非アクティブSplitをほんの少し暗くする
-unfocused-split-opacity = 0.95
+# Non-active splits recede into the void
+unfocused-split-opacity = 0.78
 
 # Split間を移動してもZoom状態を維持
 split-preserve-zoom = navigation
