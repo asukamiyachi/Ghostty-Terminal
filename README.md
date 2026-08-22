@@ -6,6 +6,18 @@
 
 このリポジトリは設定のバックアップと再構築手順を提供します。設定を自動で上書きするインストーラーではありません。導入前に必ず既存dotfilesをバックアップしてください。
 
+## Design — AURORA COCKPIT
+
+Dark Glassを土台に、Electric Cyanを現在地と操作、Neon VioletをGit/AI、Greenを成功、Goldを時間・注意、Redを異常へ割り当てたSF AI開発コンソールのUIです。
+
+- Void Black + 透明度`0.86` + blur`30`による可読性重視のDark Glass
+- UDEV Gothic NF 14ptと、選択的なBoldによるNerd Font HUD
+- DirectoryだけをPowerline pillにした、情報過多にしないStarship
+- Cyan border、Violet選択、Pink highlightのFloating fzf/fzf-tab
+- semantic syntax colorsと、AURORA用delta設定例
+
+Rainbowは常時使わず、Cyan → Blue → Violet → Pinkを選択状態などの小さなアクセントに限定しています。
+
 ## Screenshot
 
 スクリーンショットは現在コミットしていません。
@@ -78,6 +90,10 @@ hermes
 ```
 
 `eza 0.23.5`では `--icons` 単体ではなく `--icons=auto` を使用します。
+
+## Optional delta theme
+
+`git/gitconfig.example`にはAURORA用のdelta色設定を含めています。個人名・メールを含む既存の`~/.gitconfig`を置換せず、必要なセクションだけ手動で追加してください。
 
 ## Codex / Hermes
 

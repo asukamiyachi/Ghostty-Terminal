@@ -9,3 +9,16 @@
     navigate = true
     side-by-side = false
     line-numbers = true
+    features = aurora
+
+[delta "aurora"]
+    file-style = "bold #59E1FF ul"
+    file-decoration-style = "#315779 box"
+    hunk-header-style = "#BE8CFF"
+    hunk-header-decoration-style = "#315779 box"
+    minus-style = "syntax #FF6384"
+    minus-emph-style = "syntax #FF7AC6 bold"
+    plus-style = "syntax #8FF0A4"
+    plus-emph-style = "syntax #B3F7BE bold"
+    line-numbers-left-style = "#5F6E86"
+    line-numbers-right-style = "#6C9DFF"

@@ -5,3 +5,4 @@
 *.key
 *.secret
 secrets/
+zsh/.zcompdump*

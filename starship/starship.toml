@@ -1,6 +1,6 @@
 # ==================================================
-# Starship — AI Cockpit
-# Pattern 1 / Colored
+# Starship — AURORA COCKPIT
+# Dark Glass HUD with controlled Cyan / Violet accents
 # ==================================================
 
 add_newline = true
@@ -15,131 +15,69 @@ $cmd_duration
 $character
 """
 
-
 # ==================================================
-# Directory
+# Directory — the single Powerline HUD pill
 # ==================================================
 
 [directory]
 
-# フォルダアイコン + パス
-format = "[󰉋  $path](bold #7DCFFF) "
-
-# 長すぎるパスを省略
+format = "[](#59E1FF)[󰉋  $path]($style)[](#59E1FF) "
+style = "bold bg:#59E1FF fg:#05070D"
 truncation_length = 3
 truncate_to_repo = true
-
-# 読み取り専用
 read_only = " 󰌾"
-read_only_style = "bold #F7768E"
-
+read_only_style = "bold #FF6384"
 
 # ==================================================
-# Git Branch
+# Git — Violet identity, semantic status colors
 # ==================================================
 
 [git_branch]
 
 symbol = " "
-
-format = "[$symbol](bold #BB9AF7)[$branch](bold #BB9AF7) "
-
-
-# ==================================================
-# Git Status
-# ==================================================
+format = "[$symbol](bold #BE8CFF)[$branch](bold #BE8CFF) "
 
 [git_status]
 
 format = "([$all_status$ahead_behind]($style) )"
-
-style = "bold #F7768E"
-
-# ファイル変更
-modified = "●"
-
-# stage済み
-staged = "[+${count}](bold #9ECE6A)"
-
-# 未追跡
-untracked = "[?${count}](bold #E0AF68)"
-
-# 削除
-deleted = "[✕${count}](bold #F7768E)"
-
-# rename
-renamed = "[»${count}](bold #7DCFFF)"
-
-# conflict
-conflicted = "[!${count}](bold #F7768E)"
-
-# GitHubとの差
-ahead = "[⇡${count}](bold #9ECE6A)"
-behind = "[⇣${count}](bold #E0AF68)"
-diverged = "[⇕⇡${ahead_count}⇣${behind_count}](bold #BB9AF7)"
-
+style = "bold #FFD166"
+modified = "[●${count}](bold #FFD166)"
+staged = "[+${count}](bold #8FF0A4)"
+untracked = "[?${count}](bold #6C9DFF)"
+deleted = "[✕${count}](bold #FF6384)"
+renamed = "[»${count}](bold #59E1FF)"
+conflicted = "[!${count}](bold #FF6384)"
+ahead = "[⇡${count}](bold #8FF0A4)"
+behind = "[⇣${count}](bold #FFD166)"
+diverged = "[⇕⇡${ahead_count}⇣${behind_count}](bold #BE8CFF)"
 
 # ==================================================
-# Node.js
+# Runtime and project metadata
 # ==================================================
 
 [nodejs]
 
 symbol = " "
-
-format = "[$symbol](bold #9ECE6A)[$version](#9ECE6A) "
-
-detect_extensions = [
-  "js",
-  "mjs",
-  "cjs",
-  "ts",
-  "mts",
-  "cts",
-  "tsx",
-  "jsx"
-]
-
-detect_files = [
-  "package.json",
-  ".node-version"
-]
-
-
-# ==================================================
-# Package
-# ==================================================
+format = "[$symbol](bold #8FF0A4)[$version](#8FF0A4) "
+detect_extensions = ["js", "mjs", "cjs", "ts", "mts", "cts", "tsx", "jsx"]
+detect_files = ["package.json", ".node-version"]
 
 [package]
 
 symbol = "󰏗 "
-
-format = "[$symbol](bold #E0AF68)[$version](#E0AF68) "
-
-
-# ==================================================
-# Command Duration
-# ==================================================
+format = "[$symbol](bold #FFD166)[$version](#FFD166) "
 
 [cmd_duration]
 
-# 1.5秒以上かかったコマンドだけ表示
 min_time = 1500
-
-format = "[󰔛 ](bold #E0AF68)[$duration](#E0AF68) "
-
+format = "[󰔛 ](bold #FFD166)[$duration](#FFD166) "
 
 # ==================================================
-# Prompt
+# Prompt — sparse Aurora accent
 # ==================================================
 
 [character]
 
-# 成功
-success_symbol = "[❯](bold #7DCFFF)"
-
-# エラー
-error_symbol = "[❯](bold #F7768E)"
-
-# Vim command mode
-vimcmd_symbol = "[❮](bold #9ECE6A)"
+success_symbol = "[╰─](#5F6E86)[ ✦ ❯](bold #59E1FF)"
+error_symbol = "[╰─](#5F6E86)[ ✦ ❯](bold #FF6384)"
+vimcmd_symbol = "[╰─](#5F6E86)[ ❮](bold #BE8CFF)"
