@@ -50,7 +50,7 @@ CLI / TUI
 詳細手順は [docs/SETUP.md](docs/SETUP.md) を参照してください。
 
 ```bash
-git clone https://github.com/asuka0611/Ghostty-Terminal.git
+git clone https://github.com/asukamiyachi/Ghostty-Terminal.git
 cd Ghostty-Terminal
 brew bundle --file=Brewfile
 ```
