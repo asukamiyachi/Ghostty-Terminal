@@ -65,6 +65,9 @@ eval "$(starship init zsh)"
 if [[ -r "$HOME/.config/aurora/startup.zsh" ]]; then
   source "$HOME/.config/aurora/startup.zsh"
 fi
+if [[ -r "$HOME/.config/aurora/engine-metrics.zsh" ]]; then
+  source "$HOME/.config/aurora/engine-metrics.zsh"
+fi
 
 
 # ==================================================

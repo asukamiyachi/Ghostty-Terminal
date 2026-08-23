@@ -36,4 +36,6 @@ aurora_startup() {
   printf '  %s◆%s Hermes   %s● %s%s\n' "$pink" "$text" "$hermes_color" "$hermes_state" "$reset"
   printf '  %s󰉋%s %s%s\n' "$cyan" "$reset" "$display_dir" "$reset"
   printf '  %s────── ◇ ──────%s\n\n' "$muted" "$reset"
+
+  [[ ${AURORA_METRICS:-1} != 0 ]] && (( $+functions[aurora_engine_metrics] )) && aurora_engine_metrics
 }

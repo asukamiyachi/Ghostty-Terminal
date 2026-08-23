@@ -43,6 +43,22 @@ Starshipの標準Gitモジュール2つを重ねず、1つのPowerline型HUD Pil
 | Diverged | `⇕2/1` | Violet `#BE8CFF` |
 | Conflict | `!1` | Red `#FF6384` |
 
+## AURORA ENGINE METRICS
+
+Startup HUDの下へ、macOS標準コマンドだけで取得する実システム情報を表示します。CPU使用率、使用メモリ、バッテリー残量と電源状態、到達可能なネットワークインターフェース、熱状態を1回だけ取得します。
+
+| Card | 実データ | Note |
+| --- | --- | --- |
+| CPU | 全プロセスCPU使用率をコア数で正規化 | `ps` / `sysctl` |
+| Memory | active + wired + compressed memory | `vm_stat` / `sysctl` |
+| Power | バッテリー残量・充電状態 | `pmset -g batt` |
+| Network | 到達可能なインターフェース | `scutil --nwi` |
+| Thermal | 熱警告状態とバッテリー温度 | `pmset -g therm` / `ioreg` |
+
+Apple SiliconではCPU温度の標準取得には管理者権限が必要な場合があるため、CPU温度を推測表示しません。代わりにmacOSが報告する熱状態と、取得可能な実バッテリー温度を表示します。
+
+`AURORA_METRICS=0 zsh`で起動時のMetricsだけを無効化できます。読み込み後は`aurora_engine_metrics`で任意の時点に再表示できます。
+
 ## Screenshot
 
 スクリーンショットは現在コミットしていません。
@@ -149,6 +165,7 @@ done
 - `zsh/.zshrc`, `zsh/.zprofile`: 実際に使用中のzsh設定
 - `zsh/aurora/startup.zsh`: Ghostty限定の軽量起動HUD
 - `zsh/aurora/git-pill.zsh`: 1回のGit statusから状態を描画するStarship用HUD
+- `zsh/aurora/engine-metrics.zsh`: macOS実システム情報を表示するENGINE METRICS HUD
 - `starship/starship.toml`: 実際に使用中のStarship設定
 - `git/gitconfig.example`: 個人情報を除いたdelta設定例
 - `hammerspoon/terminal.capture.lua`: Ghostty/Terminal用のターミナルキャプチャ部分。既存の`common.key_sequence`モジュールを前提とします
