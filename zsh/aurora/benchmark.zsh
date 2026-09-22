@@ -13,7 +13,7 @@ aurora_bench() {
 
 # Detailed startup profile: launch with AURORA_ZPROF=1 zsh -i, then run this.
 aurora_zprof() {
-  if (( $+functions[zprof] )); then
+  if zmodload -e zsh/zprof; then
     zprof
   else
     print -u2 "AURORA: start a shell with AURORA_ZPROF=1 zsh -i first"
