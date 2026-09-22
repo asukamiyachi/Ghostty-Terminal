@@ -19,82 +19,48 @@ font-thicken-strength = 16
 # Base Colors
 # --------------------------------------------------
 
-# Void Black
 background = #05070D
-
-# Primary Text
 foreground = #E6EEF8
 
 
 # --------------------------------------------------
-# Cursor
+# Cursor / Selection / Mouse
 # --------------------------------------------------
 
 cursor-color = #59E1FF
 cursor-style = bar
 cursor-style-blink = true
 
-
-# --------------------------------------------------
-# Selection
-# --------------------------------------------------
-
 selection-background = #223A63
 selection-foreground = #FFFFFF
+
+# Keep the pointer out of the way while typing.
+mouse-hide-while-typing = true
+
+# Keep clipboard behavior safe and clean.
+clipboard-paste-protection = true
+clipboard-trim-trailing-spaces = true
 
 
 # --------------------------------------------------
 # ANSI Palette
-# AURORA COCKPIT ANSI palette
 # --------------------------------------------------
 
-# Black / Void
 palette = 0=#05070D
-
-# Red / Neon Red
 palette = 1=#FF6384
-
-# Green / Success
 palette = 2=#8FF0A4
-
-# Yellow / Solar Gold
 palette = 3=#FFD166
-
-# Blue / Aurora Blue
 palette = 4=#6C9DFF
-
-# Magenta / Neon Violet
 palette = 5=#BE8CFF
-
-# Cyan / Electric Cyan
 palette = 6=#59E1FF
-
-# White / Primary Text
 palette = 7=#E6EEF8
-
-
-# Bright Black / Muted Text
 palette = 8=#5F6E86
-
-# Bright Red
 palette = 9=#FF8AA4
-
-# Bright Green
 palette = 10=#B3F7BE
-
-# Bright Yellow
 palette = 11=#FFE29A
-
-# Bright Blue
 palette = 12=#9AB8FF
-
-# Bright Purple
 palette = 13=#D6B4FF
-
-# Bright Cyan
 palette = 14=#8EEBFF
-
-# Bright White
 palette = 15=#FFFFFF
 
 
@@ -102,42 +68,30 @@ palette = 15=#FFFFFF
 # Glass Effect
 # --------------------------------------------------
 
-# Dark Glass: readable while allowing a controlled amount of depth.
 background-opacity = 0.86
-
-# macOS blur
 background-blur = 30
 
 
 # --------------------------------------------------
-# Window
+# Window / Session
 # --------------------------------------------------
 
-# macOSタイトルバーと背景を一体化
 macos-titlebar-style = transparent
-
-# Premium whitespace without making split panes impractical
 window-padding-x = 18
 window-padding-y = 14
-
-# 端数の余白を左右上下で均等化
 window-padding-balance = true
+
+# Restore windows, tabs and splits after Ghostty restarts.
+window-save-state = always
 
 
 # --------------------------------------------------
 # Working Directory
 # --------------------------------------------------
 
-# 新規ウィンドウで現在のディレクトリを引き継ぐ
 window-inherit-working-directory = true
-
-# 新規タブで現在のディレクトリを引き継ぐ
 tab-inherit-working-directory = true
-
-# Splitでも現在のディレクトリを引き継ぐ
 split-inherit-working-directory = true
-
-# フォントサイズも引き継ぐ
 window-inherit-font-size = true
 
 
@@ -146,6 +100,9 @@ window-inherit-font-size = true
 # --------------------------------------------------
 
 shell-integration = zsh
+
+# Preserve Ghostty capabilities over interactive SSH.
+shell-integration-features = ssh-env,ssh-terminfo
 
 # Notify when a long-running command finishes while Ghostty is unfocused.
 notify-on-command-finish = unfocused
@@ -156,13 +113,8 @@ notify-on-command-finish-action = notify
 # Split Appearance
 # --------------------------------------------------
 
-# Active/inactive pane contrast
 split-divider-color = #315779
-
-# Non-active splits recede into the void
 unfocused-split-opacity = 0.78
-
-# Split間を移動してもZoom状態を維持
 split-preserve-zoom = navigation
 
 
@@ -170,22 +122,41 @@ split-preserve-zoom = navigation
 # Split Keybindings
 # --------------------------------------------------
 
-# 右にSplit
 keybind = cmd+d=new_split:right
-
-# 下にSplit
 keybind = cmd+shift+d=new_split:down
 
-# Split間を移動
+# Move between splits.
 keybind = cmd+alt+left=goto_split:left
 keybind = cmd+alt+right=goto_split:right
 keybind = cmd+alt+up=goto_split:up
 keybind = cmd+alt+down=goto_split:down
 
-# 現在のSplitだけ一時的に最大化
+# Resize the active split.
+keybind = ctrl+alt+shift+left=resize_split:left,20
+keybind = ctrl+alt+shift+right=resize_split:right,20
+keybind = ctrl+alt+shift+up=resize_split:up,20
+keybind = ctrl+alt+shift+down=resize_split:down,20
+
+# Normalize the current split layout.
+keybind = cmd+alt+0=equalize_splits
+
+# Temporarily maximize the active split.
 keybind = cmd+shift+enter=toggle_split_zoom
 
-# Command Palette and font-size controls.
+
+# --------------------------------------------------
+# Prompt Navigation
+# --------------------------------------------------
+
+# Jump between shell prompts instead of scrolling through long output.
+keybind = cmd+alt+k=jump_to_prompt:-1
+keybind = cmd+alt+j=jump_to_prompt:1
+
+
+# --------------------------------------------------
+# General Keybindings
+# --------------------------------------------------
+
 keybind = cmd+shift+p=toggle_command_palette
 keybind = cmd+equal=increase_font_size:1
 keybind = cmd+minus=decrease_font_size:1
@@ -196,20 +167,10 @@ keybind = cmd+0=reset_font_size
 # Quick Terminal
 # --------------------------------------------------
 
-# 上から出す
 quick-terminal-position = top
-
-# 画面の42%
 quick-terminal-size = 42%
-
-# 現在操作中のディスプレイ
 quick-terminal-screen = main
-
-# アニメーション
 quick-terminal-animation-duration = 0.18
-
-# 他アプリへ移動したら自動で閉じる
 quick-terminal-autohide = true
 
-# Hammerspoonの Ctrl + Option + Space と競合しない
 keybind = global:ctrl+alt+g=toggle_quick_terminal
