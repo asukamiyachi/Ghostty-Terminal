@@ -8,7 +8,7 @@ macOS Apple Silicon向けの再現可能な Ghostty + zsh 開発環境です。A
 - UDEV Gothic NF 14pt
 - Directory + dynamic Git pill
 - Node / Dart / Python context
-- command duration + failure exit code + current local time
+- command duration + failure exit code + live current local time
 - Floating fzf / fzf-tab UI
 - Startup HUD + Engine Metrics
 - Quick Terminal / split / prompt navigation / session restore
@@ -40,7 +40,9 @@ Starshipは情報を常時出しすぎない構成です。
 - Node / Dart / Python は対象projectだけ表示
 - non-zero exit codeだけRedで表示
 - command durationは1.5秒以上だけ表示
-- clockは `HH:MM:SS`
+- clockは `HH:MM:SS`。コマンド入力中は同じ位置で1秒ごとに更新
+- Enter時に時計を最終更新して固定し、コマンド実行中は再描画しない
+- 次のpromptでは前コマンドの `cmd_duration` を従来どおり表示し、新しいlive clockを開始
 
 ## Ghostty behavior
 
@@ -134,6 +136,7 @@ Engine MetricsはCPU、Memory、Power、Network、Thermalを起動時に取得�
 - `zsh/aurora/git-pill.zsh`: Git pill
 - `zsh/aurora/project-launcher.zsh`: `pj` / `pjc` / `pjg`
 - `zsh/aurora/benchmark.zsh`: hyperfine / zprof helpers
+- `zsh/aurora/live-clock.zsh`: ZLE入力中だけStarship clockを1秒ごとに同じ位置で更新
 - `starship/starship.toml`: prompt
 - `atuin/config.toml`: history UI
 - `git/gitconfig.example`: delta example
@@ -152,3 +155,9 @@ done
 ```
 
 Atuin sync、API key、個人Git identityはこのリポジトリから自動設定しません。
+
+Live clockだけ一時的に無効化する場合:
+
+```bash
+AURORA_LIVE_CLOCK=0 zsh
+```
