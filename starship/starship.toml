@@ -18,10 +18,6 @@ $time
 $character
 """
 
-# ==================================================
-# Directory — the single Powerline HUD pill
-# ==================================================
-
 [directory]
 format = "[](#59E1FF)[󰉋  $path]($style)[](#59E1FF) "
 style = "bold bg:#59E1FF fg:#05070D"
@@ -29,10 +25,6 @@ truncation_length = 3
 truncate_to_repo = true
 read_only = " 󰌾"
 read_only_style = "bold #FF6384"
-
-# ==================================================
-# Git — Violet identity, semantic status colors
-# ==================================================
 
 [git_branch]
 disabled = true
@@ -48,10 +40,6 @@ unsafe_no_escape = true
 format = "$output "
 description = "AURORA Git status pill"
 
-# ==================================================
-# Runtime and project metadata
-# ==================================================
-
 [nodejs]
 symbol = " "
 format = "[$symbol](bold #8FF0A4)[$version](#8FF0A4) "
@@ -64,15 +52,11 @@ format = "[$symbol](bold #59E1FF)[$version](#59E1FF) "
 
 [python]
 symbol = " "
-format = "[$symbol](bold #6C9DFF)[$version](#6C9DFF)[( \($virtualenv\))](#BE8CFF) "
+format = '[$symbol($version )(\($virtualenv\) )](bold #6C9DFF)'
 
 [package]
 symbol = "󰏗 "
 format = "[$symbol](bold #FFD166)[$version](#FFD166) "
-
-# ==================================================
-# Execution feedback
-# ==================================================
 
 [status]
 disabled = false
@@ -81,6 +65,7 @@ not_executable_symbol = "NOEXEC "
 not_found_symbol = "NOTFOUND "
 sigint_symbol = "INT "
 signal_symbol = "SIG "
+map_symbol = true
 format = "[$symbol$status](bold #FF6384) "
 
 [cmd_duration]
@@ -91,10 +76,6 @@ format = "[󰔛 ](bold #FFD166)[$duration](#FFD166) "
 disabled = false
 time_format = "%H:%M:%S"
 format = "[ ](bold #FFD166)[$time](#FFD166)"
-
-# ==================================================
-# Prompt — sparse Aurora accent
-# ==================================================
 
 [character]
 success_symbol = "[╰─](#5F6E86)[ ✦ ❯](bold #59E1FF)"
