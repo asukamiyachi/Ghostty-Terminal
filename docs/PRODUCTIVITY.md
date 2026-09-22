@@ -48,7 +48,9 @@ Starshipは常時情報を増やしすぎない方針です。
 - package version: package metadataがある場合
 - exit status: failure時だけ
 - command duration: 1.5秒以上
-- current time: HH:MM:SS
+- current time: HH:MM:SS。ZLE入力中は1秒ごとにin-place redraw
+- Enter時: 最終時刻でpromptを固定してtimer停止
+- command実行後: `cmd_duration`を保持した新promptでlive clock再開
 
 CPU/RAM/Powerなどは毎promptではなくStartup HUD / `aurora_engine_metrics`へ分離しています。
 
@@ -62,3 +64,21 @@ CPU/RAM/Powerなどは毎promptではなくStartup HUD / `aurora_engine_metrics`
 詳細調査は `AURORA_ZPROF=1 zsh -i` → `aurora_zprof`。
 
 運用上は平均起動時間だけでなく、変更前から25%以上悪化した場合を回帰候補として確認します。
+
+
+## Live Prompt Clock
+
+`zsh/aurora/live-clock.zsh` はStarshipの `$time` の位置やformatを変更しません。
+
+- ZLEが入力待ちの間だけ1秒timerを動かす
+- `zle reset-prompt` で同じpromptを再生成するため新しい行を追加しない
+- 入力中のBUFFER/CURSORを維持する
+- Enter時に最終redrawしてtimerを停止する
+- 実行中のCodex / Yazi / Lazygit / shell commandには干渉しない
+- 次のpromptで従来の `$cmd_duration` と新しいcurrent timeを表示する
+
+無効化:
+
+```bash
+AURORA_LIVE_CLOCK=0 zsh
+```
