@@ -16,19 +16,23 @@ aurora_project_pick() {
   command -v fd >/dev/null 2>&1 || { print -u2 "AURORA: fd is required"; return 1; }
   command -v fzf >/dev/null 2>&1 || { print -u2 "AURORA: fzf is required"; return 1; }
 
-  local root gitdir selected
+  local root gitdir repo selected
   local -a repos
+  local -A seen
 
   while IFS= read -r root; do
     [[ -d "$root" ]] || continue
     while IFS= read -r gitdir; do
       gitdir="${gitdir%/}"
-      repos+=( "${gitdir:h}" )
-    done < <(fd --hidden --type d --max-depth 6 --exclude node_modules --exclude .dart_tool '^\.git$' "$root" 2>/dev/null)
+      repo="${gitdir:h}"
+      if [[ -z ${seen[$repo]-} ]]; then
+        repos+=( "$repo" )
+        seen[$repo]=1
+      fi
+    done < <(fd --hidden --max-depth 6 --exclude node_modules --exclude .dart_tool '^\.git$' "$root" 2>/dev/null)
   done < <(aurora_project_roots)
 
   (( ${#repos} )) || { print -u2 "AURORA: no Git projects found"; return 1; }
-  repos=( ${(u)repos} )
 
   selected="$(print -rl -- "${repos[@]}" | fzf \
     --height=70% --layout=reverse --border=rounded \
@@ -44,13 +48,11 @@ pj() {
   builtin cd -- "$selected"
 }
 
-# Pick a project and start Codex there.
 pjc() {
   pj || return
   command codex
 }
 
-# Pick a project and open Lazygit there.
 pjg() {
   pj || return
   command lazygit
