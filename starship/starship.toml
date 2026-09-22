@@ -9,7 +9,10 @@ format = """
 $directory\
 ${custom.git_pill}\
 $nodejs\
+$dart\
+$python\
 $package\
+$status\
 $cmd_duration\
 $time
 $character
@@ -20,7 +23,6 @@ $character
 # ==================================================
 
 [directory]
-
 format = "[](#59E1FF)[󰉋  $path]($style)[](#59E1FF) "
 style = "bold bg:#59E1FF fg:#05070D"
 truncation_length = 3
@@ -38,7 +40,6 @@ disabled = true
 [git_status]
 disabled = true
 
-# One compact HUD pill; the helper uses a single porcelain-v2 status call.
 [custom.git_pill]
 command = '"$HOME/.config/aurora/git-pill.zsh"'
 when = true
@@ -52,24 +53,41 @@ description = "AURORA Git status pill"
 # ==================================================
 
 [nodejs]
-
 symbol = " "
 format = "[$symbol](bold #8FF0A4)[$version](#8FF0A4) "
 detect_extensions = ["js", "mjs", "cjs", "ts", "mts", "cts", "tsx", "jsx"]
 detect_files = ["package.json", ".node-version"]
 
-[package]
+[dart]
+symbol = " "
+format = "[$symbol](bold #59E1FF)[$version](#59E1FF) "
 
+[python]
+symbol = " "
+format = "[$symbol](bold #6C9DFF)[$version](#6C9DFF)[( \($virtualenv\))](#BE8CFF) "
+
+[package]
 symbol = "󰏗 "
 format = "[$symbol](bold #FFD166)[$version](#FFD166) "
 
-[cmd_duration]
+# ==================================================
+# Execution feedback
+# ==================================================
 
+[status]
+disabled = false
+symbol = "✕ "
+not_executable_symbol = "NOEXEC "
+not_found_symbol = "NOTFOUND "
+sigint_symbol = "INT "
+signal_symbol = "SIG "
+format = "[$symbol$status](bold #FF6384) "
+
+[cmd_duration]
 min_time = 1500
 format = "[󰔛 ](bold #FFD166)[$duration](#FFD166) "
 
 [time]
-
 disabled = false
 time_format = "%H:%M:%S"
 format = "[ ](bold #FFD166)[$time](#FFD166)"
@@ -79,7 +97,6 @@ format = "[ ](bold #FFD166)[$time](#FFD166)"
 # ==================================================
 
 [character]
-
 success_symbol = "[╰─](#5F6E86)[ ✦ ❯](bold #59E1FF)"
 error_symbol = "[╰─](#5F6E86)[ ✦ ❯](bold #FF6384)"
 vimcmd_symbol = "[╰─](#5F6E86)[ ❮](bold #BE8CFF)"
