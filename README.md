@@ -1,94 +1,97 @@
 # Ghostty Terminal
 
-再現可能な macOS Apple Silicon 向けの Ghostty + zsh 開発ターミナル環境です。Codex、Hermes、Git、Node.js、Flutterを日常的に使うための設定を、現在正常動作しているMacから記録しています。
+macOS Apple Silicon向けの再現可能な Ghostty + zsh 開発環境です。AURORA COCKPITという一貫したUIの上に、履歴検索・補完・project移動・file manager・runtime管理・Git・AI CLI・shell performance計測を統合しています。
 
-## Overview
+## AURORA COCKPIT
 
-このリポジトリは設定のバックアップと再構築手順を提供します。設定を自動で上書きするインストーラーではありません。導入前に必ず既存dotfilesをバックアップしてください。
+- Dark Glass: background `#05070D` / opacity `0.86` / blur `30`
+- UDEV Gothic NF 14pt
+- Directory + dynamic Git pill
+- Node / Dart / Python context
+- command duration + failure exit code + current local time
+- Floating fzf / fzf-tab UI
+- Startup HUD + Engine Metrics
+- Quick Terminal / split / prompt navigation / session restore
 
-## Design — AURORA COCKPIT
+## Productivity stack
 
-Dark Glassを土台に、Electric Cyanを現在地と操作、Neon VioletをGit/AI、Greenを成功、Goldを時間・注意、Redを異常へ割り当てたSF AI開発コンソールのUIです。
+| Area | Tool / feature |
+| --- | --- |
+| History | Atuin。Ctrl-R、workspace-aware history |
+| Navigation | zoxide、AURORA Project Launcher |
+| Completion | native zsh completion + Carapace + fzf-tab |
+| Files | Yazi、eza、bat、fd、ripgrep |
+| Runtime | mise |
+| Git | dynamic Git pill、lazygit、delta |
+| Benchmark | hyperfine + zprof |
+| AI CLI | Codex、Hermes |
 
-- Void Black + 透明度`0.86` + blur`30`による可読性重視のDark Glass
-- UDEV Gothic NF 14ptと、選択的なBoldによるNerd Font HUD
-- DirectoryだけをPowerline pillにした、情報過多にしないStarship
-- Cyan border、Violet選択、Pink highlightのFloating fzf/fzf-tab
-- semantic syntax colorsと、AURORA用delta設定例
+詳細は [docs/PRODUCTIVITY.md](docs/PRODUCTIVITY.md) を参照してください。
 
-Rainbowは常時使わず、Cyan → Blue → Violet → Pinkを選択状態などの小さなアクセントに限定しています。
+## Prompt
 
-## AURORA Startup
-
-新しいローカルGhosttyの対話シェルでは、巨大なASCIIアートではなく、Codex/Hermesの利用可否と現在地を含む小さな起動HUDを表示します。`GHOSTTY_RESOURCES_DIR`を検出に使用するため、SSH、CI、非対話シェルでは表示しません。
-
-一時的に非表示にするには、次のように起動します。
-
-```bash
-AURORA_STARTUP=0 zsh
-```
-
-毎回非表示にする場合は、`.zprofile`など、`.zshrc`より先に読み込む個人設定へ`export AURORA_STARTUP=0`を追加してください。起動時の確認は`command -v codex`と`command -v hermes`だけで、バージョン取得やネットワークアクセスは行いません。
-
-## Dynamic Git Pill
-
-Starshipの標準Gitモジュール2つを重ねず、1つのPowerline型HUD Pillへ統合しています。補助スクリプトは`git status --porcelain=v2 --branch`を1回だけ実行して状態を決めるため、リポジトリ外には表示されません。
-
-| State | 表示例 | Color |
-| --- | --- | --- |
-| Clean | `✓` | Green `#8FF0A4` |
-| Dirty | `+2 ●1 ?3` | Gold `#FFD166` |
-| Ahead | `⇡2` | Cyan `#59E1FF` |
-| Behind | `⇣2` | Gold `#FFD166` |
-| Diverged | `⇕2/1` | Violet `#BE8CFF` |
-| Conflict | `!1` | Red `#FF6384` |
-
-## AURORA ENGINE METRICS
-
-Startup HUDの下へ、macOS標準コマンドだけで取得する実システム情報を表示します。CPU使用率、使用メモリ、バッテリー残量と電源状態、到達可能なネットワークインターフェース、熱状態を1回だけ取得します。
-
-| Card | 実データ | Note |
-| --- | --- | --- |
-| CPU | 全プロセスCPU使用率をコア数で正規化 | `ps` / `sysctl` |
-| Memory | active + wired + compressed memory | `vm_stat` / `sysctl` |
-| Power | バッテリー残量・充電状態 | `pmset -g batt` |
-| Network | 到達可能なインターフェース | `scutil --nwi` |
-| Thermal | 熱警告状態とバッテリー温度 | `pmset -g therm` / `ioreg` |
-
-Apple SiliconではCPU温度の標準取得には管理者権限が必要な場合があるため、CPU温度を推測表示しません。代わりにmacOSが報告する熱状態と、取得可能な実バッテリー温度を表示します。
-
-`AURORA_METRICS=0 zsh`で起動時のMetricsだけを無効化できます。読み込み後は`aurora_engine_metrics`で任意の時点に再表示できます。
-
-## Screenshot
-
-スクリーンショットは現在コミットしていません。
-
-## Stack
-
-Ghostty、zsh、Starship、zoxide、compinit、fzf、fzf-tab、zsh-autosuggestions、zsh-syntax-highlighting、eza、bat、ripgrep、fd、jq、lazygit、git-delta、Codex、Hermes。
-
-## Architecture
+Starshipは情報を常時出しすぎない構成です。
 
 ```text
-Ghostty
-└── zsh
-    ├── zoxide
-    ├── compinit
-    ├── fzf / fzf-tab
-    ├── autosuggestions
-    ├── Starship
-    └── syntax highlighting
-
-CLI / TUI
-├── eza / bat / rg / fd / jq
-├── lazygit / delta
-├── Codex
-└── Hermes
+󰉋 project   main ✓   v24   v3.x  󰔛 2.4s   18:10:15
+╰─ ✦ ❯
 ```
 
-## Installation
+- Node / Dart / Python は対象projectだけ表示
+- non-zero exit codeだけRedで表示
+- command durationは1.5秒以上だけ表示
+- clockは `HH:MM:SS`
 
-詳細手順は [docs/SETUP.md](docs/SETUP.md) を参照してください。
+## Ghostty behavior
+
+- `window-save-state = always`: window / tab / split状態を復元
+- `shell-integration-features = ssh-env,ssh-terminfo`: interactive SSHをGhostty向けに補助
+- long-running command終了通知
+- typing中はmouse pointerを隠す
+- paste protectionとclipboard whitespace cleanup
+- working directory / font size inheritance
+
+## Keybindings
+
+| Action | Key |
+| --- | --- |
+| Split right | Cmd + D |
+| Split down | Cmd + Shift + D |
+| Move between splits | Cmd + Option + Arrow |
+| Resize split | Ctrl + Option + Shift + Arrow |
+| Equalize splits | Cmd + Option + 0 |
+| Toggle split zoom | Cmd + Shift + Enter |
+| Previous prompt | Cmd + Option + K |
+| Next prompt | Cmd + Option + J |
+| Command Palette | Cmd + Shift + P |
+| Quick Terminal | Ctrl + Option + G (global) |
+
+完全版は [docs/KEYBINDINGS.md](docs/KEYBINDINGS.md)。
+
+## Shell commands
+
+```bash
+z <keyword>       # zoxide
+cdi               # fzf directory picker
+lsi               # eza + directory picker
+
+pj                # Git projectを選択してcd
+pjc               # projectを選択してCodex
+pjg               # projectを選択してLazygit
+
+y                 # Yazi。終了先directoryをshellへ反映
+
+aurora_engine_metrics
+aurora_bench
+aurora_bench 20
+
+AURORA_ZPROF=1 zsh -i
+aurora_zprof
+```
+
+Atuinが `Ctrl-R` を担当し、通常のUp Arrowは上書きしません。
+
+## Installation
 
 ```bash
 git clone https://github.com/asukamiyachi/Ghostty-Terminal.git
@@ -96,56 +99,45 @@ cd Ghostty-Terminal
 brew bundle --file=Brewfile
 ```
 
-Ghostty、UDEV Gothic NF、Homebrew CLIを導入した後、バックアップを作成して設定を配置します。Symlink方式も利用できますが、既存ファイルを先に退避してください。
+その後のcopy / symlink方式、Atuin履歴import、validationは [docs/SETUP.md](docs/SETUP.md) を参照してください。
 
-## Keybindings
+## AURORA Startup / Metrics
 
-実際の `ghostty/config.ghostty` から抽出した一覧は [docs/KEYBINDINGS.md](docs/KEYBINDINGS.md) にあります。
-
-| Action | Key |
-| --- | --- |
-| Split right | Cmd + D |
-| Split down | Cmd + Shift + D |
-| Move between splits | Cmd + Option + Arrow |
-| Toggle split zoom | Cmd + Shift + Enter |
-| Command Palette | Cmd + Shift + P |
-| Increase font size | Cmd + = |
-| Decrease font size | Cmd + - |
-| Reset font size | Cmd + 0 |
-| Quick Terminal | Ctrl + Option + G (global) |
-
-## Shell commands
+ローカルGhosttyのinteractive zshでは、Codex/Hermes状態と現在地を含むStartup HUDを表示します。
 
 ```bash
-z <keyword>       # 履歴ベースのディレクトリ移動
-cdi               # fzfでディレクトリを選択して移動
-lsi               # eza一覧の後に矢印キーでディレクトリ選択
-eza --icons=auto
-bat <file>
-rg <query>
-fd <name>
-lazygit
-git diff           # delta pager
-codex
-hermes
+AURORA_STARTUP=0 zsh
+AURORA_METRICS=0 zsh
 ```
 
-`eza 0.23.5`では `--icons` 単体ではなく `--icons=auto` を使用します。
+Engine MetricsはCPU、Memory、Power、Network、Thermalを起動時に取得します。必要な時だけ `aurora_engine_metrics` で再表示できます。
 
-## Optional delta theme
+## Git pill
 
-`git/gitconfig.example`にはAURORA用のdelta色設定を含めています。個人名・メールを含む既存の`~/.gitconfig`を置換せず、必要なセクションだけ手動で追加してください。
+`git status --porcelain=v2 --branch` を1回だけ実行して描画します。
 
-## Codex / Hermes
+| State | Example | Color |
+| --- | --- | --- |
+| Clean | `✓` | Green |
+| Dirty | `+2 ●1 ?3` | Gold |
+| Ahead | `⇡2` | Cyan |
+| Behind | `⇣2` | Gold |
+| Diverged | `⇕2/1` | Violet |
+| Conflict | `!1` | Red |
 
-以下のコマンドが利用可能であることを前提にしています。認証情報やAPIキーはこのリポジトリに保存しません。
+## Files
 
-```bash
-codex
-hermes
-```
-
-HermesはHomebrew管理ではなく、現在のMacでは `$HOME/.local/bin/hermes` にあります。インストール方法はこのリポジトリでは固定していません。
+- `ghostty/config.ghostty`: Ghostty UI / session / keybindings / shell integration
+- `zsh/.zshrc`: shell integrations
+- `zsh/aurora/startup.zsh`: Startup HUD
+- `zsh/aurora/engine-metrics.zsh`: Engine Metrics
+- `zsh/aurora/git-pill.zsh`: Git pill
+- `zsh/aurora/project-launcher.zsh`: `pj` / `pjc` / `pjg`
+- `zsh/aurora/benchmark.zsh`: hyperfine / zprof helpers
+- `starship/starship.toml`: prompt
+- `atuin/config.toml`: history UI
+- `git/gitconfig.example`: delta example
+- `Brewfile`: dependencies
 
 ## Validation
 
@@ -153,22 +145,10 @@ HermesはHomebrew管理ではなく、現在のMacでは `$HOME/.local/bin/herme
 zsh -n ~/.zshrc
 ghostty +validate-config
 
-for cmd in brew git node flutter codex hermes starship zoxide fzf eza bat rg fd lazygit delta jq; do
+for cmd in brew git node flutter codex hermes starship zoxide fzf eza bat rg fd lazygit delta jq atuin carapace hyperfine mise yazi; do
   printf '%-12s ' "$cmd"
   command -v "$cmd" || echo 'NOT FOUND'
 done
 ```
 
-## Files
-
-- `ghostty/config.ghostty`: 実際に使用中のGhostty設定
-- `zsh/.zshrc`, `zsh/.zprofile`: 実際に使用中のzsh設定
-- `zsh/aurora/startup.zsh`: Ghostty限定の軽量起動HUD
-- `zsh/aurora/git-pill.zsh`: 1回のGit statusから状態を描画するStarship用HUD
-- `zsh/aurora/engine-metrics.zsh`: macOS実システム情報を表示するENGINE METRICS HUD
-- `starship/starship.toml`: 実際に使用中のStarship設定
-- `git/gitconfig.example`: 個人情報を除いたdelta設定例
-- `hammerspoon/terminal.capture.lua`: Ghostty/Terminal用のターミナルキャプチャ部分。既存の`common.key_sequence`モジュールを前提とします
-- `Brewfile`: 現在の再現に必要なHomebrew formula/cask
-
-ライセンスは既存指定がないため、このリポジトリでは未指定です。
+Atuin sync、API key、個人Git identityはこのリポジトリから自動設定しません。
