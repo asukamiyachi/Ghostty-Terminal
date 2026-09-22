@@ -29,10 +29,11 @@ done
 ## 3. 設定を配置
 
 ```bash
-mkdir -p "$HOME/.config/ghostty" "$HOME/.config"
+mkdir -p "$HOME/.config/ghostty" "$HOME/.config/aurora"
 cp ghostty/config.ghostty "$HOME/.config/ghostty/config.ghostty"
 cp zsh/.zshrc "$HOME/.zshrc"
 cp zsh/.zprofile "$HOME/.zprofile"
+cp zsh/aurora/*.zsh "$HOME/.config/aurora/"
 cp starship/starship.toml "$HOME/.config/starship.toml"
 ```
 
@@ -43,9 +44,13 @@ Gitの個人名・メールは環境固有なので、`git/gitconfig.example`を
 バックアップ後にだけ使用します。
 
 ```bash
+mkdir -p "$HOME/.config/aurora"
 ln -sfn "$PWD/ghostty/config.ghostty" "$HOME/.config/ghostty/config.ghostty"
 ln -sfn "$PWD/zsh/.zshrc" "$HOME/.zshrc"
 ln -sfn "$PWD/zsh/.zprofile" "$HOME/.zprofile"
+for f in "$PWD"/zsh/aurora/*.zsh; do
+  ln -sfn "$f" "$HOME/.config/aurora/$(basename "$f")"
+done
 ln -sfn "$PWD/starship/starship.toml" "$HOME/.config/starship.toml"
 ```
 

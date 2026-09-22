@@ -61,6 +61,14 @@ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Prompt. Initialize once, after interactive tool setup.
 eval "$(starship init zsh)"
 
+# Startup HUD stays separate from the shell's core configuration.
+if [[ -r "$HOME/.config/aurora/startup.zsh" ]]; then
+  source "$HOME/.config/aurora/startup.zsh"
+fi
+if [[ -r "$HOME/.config/aurora/engine-metrics.zsh" ]]; then
+  source "$HOME/.config/aurora/engine-metrics.zsh"
+fi
+
 
 # ==================================================
 # Syntax Highlight Colors
@@ -95,3 +103,6 @@ ZSH_HIGHLIGHT_STYLES[comment]='fg=#5F6E86'
 
 # 入力予測を控えめなグレーに
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#39465A'
+
+# Runs only in a local interactive Ghostty shell. Disable with AURORA_STARTUP=0.
+(( $+functions[aurora_startup] )) && aurora_startup

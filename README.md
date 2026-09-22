@@ -18,6 +18,47 @@ Dark Glassを土台に、Electric Cyanを現在地と操作、Neon VioletをGit/
 
 Rainbowは常時使わず、Cyan → Blue → Violet → Pinkを選択状態などの小さなアクセントに限定しています。
 
+## AURORA Startup
+
+新しいローカルGhosttyの対話シェルでは、巨大なASCIIアートではなく、Codex/Hermesの利用可否と現在地を含む小さな起動HUDを表示します。`GHOSTTY_RESOURCES_DIR`を検出に使用するため、SSH、CI、非対話シェルでは表示しません。
+
+一時的に非表示にするには、次のように起動します。
+
+```bash
+AURORA_STARTUP=0 zsh
+```
+
+毎回非表示にする場合は、`.zprofile`など、`.zshrc`より先に読み込む個人設定へ`export AURORA_STARTUP=0`を追加してください。起動時の確認は`command -v codex`と`command -v hermes`だけで、バージョン取得やネットワークアクセスは行いません。
+
+## Dynamic Git Pill
+
+Starshipの標準Gitモジュール2つを重ねず、1つのPowerline型HUD Pillへ統合しています。補助スクリプトは`git status --porcelain=v2 --branch`を1回だけ実行して状態を決めるため、リポジトリ外には表示されません。
+
+| State | 表示例 | Color |
+| --- | --- | --- |
+| Clean | `✓` | Green `#8FF0A4` |
+| Dirty | `+2 ●1 ?3` | Gold `#FFD166` |
+| Ahead | `⇡2` | Cyan `#59E1FF` |
+| Behind | `⇣2` | Gold `#FFD166` |
+| Diverged | `⇕2/1` | Violet `#BE8CFF` |
+| Conflict | `!1` | Red `#FF6384` |
+
+## AURORA ENGINE METRICS
+
+Startup HUDの下へ、macOS標準コマンドだけで取得する実システム情報を表示します。CPU使用率、使用メモリ、バッテリー残量と電源状態、到達可能なネットワークインターフェース、熱状態を1回だけ取得します。
+
+| Card | 実データ | Note |
+| --- | --- | --- |
+| CPU | 全プロセスCPU使用率をコア数で正規化 | `ps` / `sysctl` |
+| Memory | active + wired + compressed memory | `vm_stat` / `sysctl` |
+| Power | バッテリー残量・充電状態 | `pmset -g batt` |
+| Network | 到達可能なインターフェース | `scutil --nwi` |
+| Thermal | 熱警告状態とバッテリー温度 | `pmset -g therm` / `ioreg` |
+
+Apple SiliconではCPU温度の標準取得には管理者権限が必要な場合があるため、CPU温度を推測表示しません。代わりにmacOSが報告する熱状態と、取得可能な実バッテリー温度を表示します。
+
+`AURORA_METRICS=0 zsh`で起動時のMetricsだけを無効化できます。読み込み後は`aurora_engine_metrics`で任意の時点に再表示できます。
+
 ## Screenshot
 
 スクリーンショットは現在コミットしていません。
@@ -122,6 +163,9 @@ done
 
 - `ghostty/config.ghostty`: 実際に使用中のGhostty設定
 - `zsh/.zshrc`, `zsh/.zprofile`: 実際に使用中のzsh設定
+- `zsh/aurora/startup.zsh`: Ghostty限定の軽量起動HUD
+- `zsh/aurora/git-pill.zsh`: 1回のGit statusから状態を描画するStarship用HUD
+- `zsh/aurora/engine-metrics.zsh`: macOS実システム情報を表示するENGINE METRICS HUD
 - `starship/starship.toml`: 実際に使用中のStarship設定
 - `git/gitconfig.example`: 個人情報を除いたdelta設定例
 - `hammerspoon/terminal.capture.lua`: Ghostty/Terminal用のターミナルキャプチャ部分。既存の`common.key_sequence`モジュールを前提とします
