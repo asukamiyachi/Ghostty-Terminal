@@ -100,7 +100,7 @@ command -v atuin >/dev/null 2>&1 && eval "$(atuin init zsh --disable-up-arrow --
 eval "$(starship init zsh)"
 
 # AURORA modules.
-for _aurora_module in "$HOME/.config/aurora/project-launcher.zsh" "$HOME/.config/aurora/benchmark.zsh" "$HOME/.config/aurora/startup.zsh" "$HOME/.config/aurora/engine-metrics.zsh"; do
+for _aurora_module in "$HOME/.config/aurora/project-launcher.zsh" "$HOME/.config/aurora/benchmark.zsh" "$HOME/.config/aurora/live-clock.zsh" "$HOME/.config/aurora/startup.zsh" "$HOME/.config/aurora/engine-metrics.zsh"; do
   [[ -r "$_aurora_module" ]] && source "$_aurora_module"
 done
 unset _aurora_module
