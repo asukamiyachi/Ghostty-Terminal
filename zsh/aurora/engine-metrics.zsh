@@ -38,8 +38,8 @@ aurora_engine_metrics() {
   battery_percent="$(print -r -- "$battery_info" | awk 'match($0, /[0-9]+%/) { print substr($0, RSTART, RLENGTH - 1); exit }')"
   if [[ "$battery_percent" == <-> ]]; then
     case "$battery_info" in
-      *charging*) battery_state="CHARGING" ;;
       *discharging*) battery_state="DISCHARGING" ;;
+      *charging*) battery_state="CHARGING" ;;
       *charged*) battery_state="CHARGED" ;;
       *) battery_state="BATTERY" ;;
     esac
