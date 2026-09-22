@@ -5,7 +5,7 @@ aurora_project_roots() {
   emulate -L zsh
   local raw="${AURORA_PROJECT_ROOTS:-$HOME/Documents:$HOME/Developer:$HOME/Projects}"
   local -a roots
-  roots=( ${(s.:.)raw} )
+  roots=( "${(@s.:.)raw}" )
   print -rl -- "${roots[@]}"
 }
 
