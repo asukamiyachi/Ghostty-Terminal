@@ -1,0 +1,12 @@
+# AURORA Atuin history UI.
+# Commands stay local unless Atuin sync is explicitly configured by the user.
+
+style = "compact"
+inline_height = 20
+enter_accept = false
+workspaces = true
+filter_mode = "workspace"
+search_mode = "fuzzy"
+
+[search]
+filters = ["workspace", "directory", "session", "host", "global"]
