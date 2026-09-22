@@ -10,7 +10,8 @@ $directory\
 ${custom.git_pill}\
 $nodejs\
 $package\
-$cmd_duration
+$cmd_duration\
+$time
 $character
 """
 
@@ -66,6 +67,12 @@ format = "[$symbol](bold #FFD166)[$version](#FFD166) "
 
 min_time = 1500
 format = "[󰔛 ](bold #FFD166)[$duration](#FFD166) "
+
+[time]
+
+disabled = false
+time_format = "%H:%M:%S"
+format = "[ ](bold #FFD166)[$time](#FFD166)"
 
 # ==================================================
 # Prompt — sparse Aurora accent
