@@ -115,7 +115,9 @@ AURORA_STARTUP=0 zsh      # HUDもモニターもなし
 AURORA_METRICS=0 zsh      # 旧設定との互換: モニターなし
 ```
 
-既定は `AURORA_MONITOR=btop`。btop未インストール時のみ従来の静的Engine Metricsへフォールバックします。非TTY、`TERM=dumb`、`zsh -i -c`、SSH、CIの環境では起動HUDごと省略します。btop自体の設定は `btop` コマンドから調整できます。新規splitの対話シェルでもbtopが起動します。\n\nCIはLinux上のzsh構文・擬似TTY動作を検証します。macOSでのGhostty表示と実btopの動作確認は別途必要です。
+既定は `AURORA_MONITOR=btop`。btop未インストール時のみ従来の静的Engine Metricsへフォールバックします。非TTY、`TERM=dumb`、`zsh -i -c`、SSH、CIの環境では起動HUDごと省略します。btop自体の設定は `btop` コマンドから調整できます。新規splitの対話シェルでもbtopが起動します。
+
+CIはLinux上のzsh構文・擬似TTY動作を検証します。macOSでのGhostty表示と実btopの動作確認は別途必要です。
 
 ## Git pill
 
