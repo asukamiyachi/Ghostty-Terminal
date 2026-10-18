@@ -2,6 +2,7 @@
 brew "node"
 brew "atuin"
 brew "bat"
+brew "btop"
 brew "carapace"
 brew "eza"
 brew "fd"

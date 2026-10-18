@@ -12,7 +12,7 @@ cd Ghostty-Terminal
 brew bundle --file=Brewfile
 ```
 
-主要な追加CLIは Atuin、Carapace、hyperfine、mise、Yazi です。
+主要な追加CLIは Atuin、btop、Carapace、hyperfine、mise、Yazi です。
 
 ## 2. 設定のバックアップ
 
@@ -101,13 +101,17 @@ aurora_bench 20
 詳細な関数別profiling:
 
 ```bash
-AURORA_ZPROF=1 zsh -i
+AURORA_ZPROF=1 AURORA_MONITOR=off zsh -i
 aurora_zprof
 ```
 
-`aurora_bench`は通常起動と、Startup HUD / Engine Metricsを無効化したcore shellを比較します。
+`aurora_bench`は `zsh -i -c exit` のシェル初期化時間のみを計測します。このコマンド実行用シェルではStartup HUD・btopを起動しないため、全画面btopの起動速度は計測対象外です。
 
-## 8. Hermes
+## 8. Startup Monitor
+
+ローカルGhosttyを開くとStartup HUDの後にbtopが全画面で起動します。`q`で通常のzshプロンプトへ戻れます。従来の静的メトリクスに戻すには `AURORA_MONITOR=metrics zsh`、表示を省くには `AURORA_MONITOR=off zsh` を使ってください。btopが見つからなければ静的メトリクスへフォールバックします。
+
+## 9. Hermes
 
 Hermesは現在のMacでは `$HOME/.local/bin/hermes` にあり、Brewfileでは管理していません。別途、利用するHermesの公式手順で導入します。
 
@@ -115,13 +119,15 @@ Hermesは現在のMacでは `$HOME/.local/bin/hermes` にあり、Brewfileでは
 command -v hermes
 ```
 
-## 9. Validation
+## 10. Validation
+
+LinuxのGitHub Actionsではzsh構文チェックと、擬似TTYを使った `bash tests/test-startup.sh` で起動条件を検証します。これはmacOSのGhostty実機表示や温度・電力計測、実btopの操作性を保証するものではありません。
 
 ```bash
 zsh -n "$HOME/.zshrc"
 ghostty +validate-config
 
-for cmd in brew git node flutter codex hermes starship zoxide fzf eza bat rg fd lazygit delta jq atuin carapace hyperfine mise yazi; do
+for cmd in brew git node flutter codex hermes btop starship zoxide fzf eza bat rg fd lazygit delta jq atuin carapace hyperfine mise yazi; do
   printf '%-12s ' "$cmd"
   command -v "$cmd" || echo 'NOT FOUND'
 done

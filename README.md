@@ -10,7 +10,7 @@ macOS Apple Silicon向けの再現可能な Ghostty + zsh 開発環境です。A
 - Node / Dart / Python context
 - command duration + failure exit code + live current local time
 - Floating fzf / fzf-tab UI
-- Startup HUD + Engine Metrics
+- Startup HUD + live btop monitor (optional legacy Engine Metrics)
 - Quick Terminal / split / prompt navigation / session restore
 
 ## Productivity stack
@@ -83,11 +83,12 @@ pjg               # projectを選択してLazygit
 
 y                 # Yazi。終了先directoryをshellへ反映
 
-aurora_engine_metrics
+btop                     # live system/process monitor
+aurora_engine_metrics    # optional one-shot legacy HUD
 aurora_bench
 aurora_bench 20
 
-AURORA_ZPROF=1 zsh -i
+AURORA_ZPROF=1 AURORA_MONITOR=off zsh -i
 aurora_zprof
 ```
 
@@ -103,16 +104,20 @@ brew bundle --file=Brewfile
 
 その後のcopy / symlink方式、Atuin履歴import、validationは [docs/SETUP.md](docs/SETUP.md) を参照してください。
 
-## AURORA Startup / Metrics
+## AURORA Startup / Monitor
 
-ローカルGhosttyのinteractive zshでは、Codex/Hermes状態と現在地を含むStartup HUDを表示します。
+ローカルGhosttyのinteractive zshでは、Codex/Hermes状態と現在地を含むStartup HUDを表示した後、**btop** を全画面で起動します。**q** でbtopを終了すると通常のzshプロンプトに戻ります。btopは静的なENGINE METRICS枠に埋め込まれるわけではありません。
 
 ```bash
-AURORA_STARTUP=0 zsh
-AURORA_METRICS=0 zsh
+AURORA_MONITOR=metrics zsh # 従来の静的ENGINE METRICS
+AURORA_MONITOR=off zsh     # HUDのみ、モニターなし
+AURORA_STARTUP=0 zsh      # HUDもモニターもなし
+AURORA_METRICS=0 zsh      # 旧設定との互換: モニターなし
 ```
 
-Engine MetricsはCPU、Memory、Power、Network、Thermalを起動時に取得します。必要な時だけ `aurora_engine_metrics` で再表示できます。
+既定は `AURORA_MONITOR=btop`。btop未インストール時のみ従来の静的Engine Metricsへフォールバックします。非TTY、`TERM=dumb`、`zsh -i -c`、SSH、CIの環境では起動HUDごと省略します。btop自体の設定は `btop` コマンドから調整できます。新規splitの対話シェルでもbtopが起動します。
+
+CIはLinux上のzsh構文・擬似TTY動作を検証します。macOSでのGhostty表示と実btopの動作確認は別途必要です。
 
 ## Git pill
 
@@ -132,7 +137,7 @@ Engine MetricsはCPU、Memory、Power、Network、Thermalを起動時に取得�
 - `ghostty/config.ghostty`: Ghostty UI / session / keybindings / shell integration
 - `zsh/.zshrc`: shell integrations
 - `zsh/aurora/startup.zsh`: Startup HUD
-- `zsh/aurora/engine-metrics.zsh`: Engine Metrics
+- `zsh/aurora/engine-metrics.zsh`: optional legacy Engine Metrics
 - `zsh/aurora/git-pill.zsh`: Git pill
 - `zsh/aurora/project-launcher.zsh`: `pj` / `pjc` / `pjg`
 - `zsh/aurora/benchmark.zsh`: hyperfine / zprof helpers
@@ -148,7 +153,7 @@ Engine MetricsはCPU、Memory、Power、Network、Thermalを起動時に取得�
 zsh -n ~/.zshrc
 ghostty +validate-config
 
-for cmd in brew git node flutter codex hermes starship zoxide fzf eza bat rg fd lazygit delta jq atuin carapace hyperfine mise yazi; do
+for cmd in brew git node flutter codex hermes btop starship zoxide fzf eza bat rg fd lazygit delta jq atuin carapace hyperfine mise yazi; do
   printf '%-12s ' "$cmd"
   command -v "$cmd" || echo 'NOT FOUND'
 done

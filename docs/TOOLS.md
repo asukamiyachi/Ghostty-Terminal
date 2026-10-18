@@ -2,6 +2,7 @@
 
 | Tool | Purpose |
 | --- | --- |
+| btop | CPU・メモリ・プロセスをリアルタイム監視。起動時は全画面表示し、`q`でシェルへ戻る |
 | Atuin | 実行時刻・cwd・duration・exit codeを含む履歴DB。Ctrl-Rはworkspace優先検索 |
 | zoxide | 履歴ベースのディレクトリ移動。`z <keyword>` |
 | fzf | ファイル・ディレクトリ・独自pickerの曖昧検索 |
@@ -18,9 +19,9 @@
 | hyperfine | `aurora_bench`でzsh startupを比較計測 |
 | jq | JSONの検索・整形・抽出 |
 | Starship | Git・runtime・exit status・duration・current timeを表示 |
-| `zsh/aurora/startup.zsh` | Ghostty限定の軽量AURORA起動HUD |
+| `zsh/aurora/startup.zsh` | Ghostty限定のAURORA起動HUDとbtop起動制御 |
 | `zsh/aurora/git-pill.zsh` | 1回のGit statusから状態を描画するHUD |
-| `zsh/aurora/engine-metrics.zsh` | CPU・Memory・Power・Network・Thermalの起動時HUD |
+| `zsh/aurora/engine-metrics.zsh` | btop未導入時・`AURORA_MONITOR=metrics` 時の静的HUD |
 | `zsh/aurora/project-launcher.zsh` | `pj` / `pjc` / `pjg` |
 | `zsh/aurora/benchmark.zsh` | `aurora_bench` / `aurora_zprof` |
 | Codex | ターミナルで利用するコーディングエージェントCLI |
