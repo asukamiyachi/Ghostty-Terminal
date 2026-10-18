@@ -1,0 +1,31 @@
+name: Shell checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  startup:
+    name: zsh startup and PTY behavior
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install zsh
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y zsh
+      - name: Shell syntax
+        run: |
+          set -euo pipefail
+          bash -n tests/test-startup.sh
+          for file in zsh/.zshrc zsh/.zprofile zsh/aurora/*.zsh; do
+            zsh -n "$file"
+          done
+      - name: Ghostty startup simulation (PTY)
+        run: bash tests/test-startup.sh
