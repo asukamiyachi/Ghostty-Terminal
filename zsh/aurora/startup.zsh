@@ -37,5 +37,28 @@ aurora_startup() {
   printf '  %s󰉋%s %s%s\n' "$cyan" "$reset" "$display_dir" "$reset"
   printf '  %s────── ◇ ──────%s\n\n' "$muted" "$reset"
 
-  [[ ${AURORA_METRICS:-1} != 0 ]] && (( $+functions[aurora_engine_metrics] )) && aurora_engine_metrics
+  # Legacy switch: AURORA_METRICS=0 suppresses any startup monitor.
+  [[ ${AURORA_METRICS:-1} != 0 ]] || return 0
+
+  case "${AURORA_MONITOR:-btop}" in
+    btop)
+      # btop is a full-screen TUI; skip it for non-TTY and `zsh -i -c`
+      # invocations (including shell startup benchmarks).
+      if [[ -t 0 && -t 1 && -z ${ZSH_EXECUTION_STRING:-} ]] && command -v btop >/dev/null 2>&1; then
+        command btop
+      elif ! command -v btop >/dev/null 2>&1 && (( $+functions[aurora_engine_metrics] )); then
+        # Preserve the old metrics HUD on machines not yet running brew bundle.
+        aurora_engine_metrics
+      fi
+      ;;
+    metrics)
+      (( $+functions[aurora_engine_metrics] )) && aurora_engine_metrics
+      ;;
+    off)
+      ;;
+    *)
+      printf 'AURORA: unsupported AURORA_MONITOR=%s (expected btop, metrics, or off)\n' "${AURORA_MONITOR}" >&2
+      ;;
+  esac
+  return 0
 }
