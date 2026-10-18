@@ -53,7 +53,7 @@ tty_case() {
   shift 2
   : > "$AURORA_TEST_LOG"
   if ! env -u CI -u SSH_CONNECTION -u AURORA_MONITOR -u AURORA_STARTUP -u AURORA_METRICS \
-    "$@" script -q -e -c "zsh -fi '$tmp/harness.zsh'" /dev/null </dev/null > "$tmp/output" 2>&1; then
+    TERM=xterm-256color "$@" script -q -e -c "zsh -fi '$tmp/harness.zsh'" /dev/null </dev/null > "$tmp/output" 2>&1; then
     printf 'FAIL [%s] PTY execution failed; terminal output:\n' "$name" >&2
     cat "$tmp/output" >&2
     exit 1
