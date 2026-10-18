@@ -123,7 +123,6 @@ command -v hermes
 
 LinuxのGitHub Actionsではzsh構文チェックと、擬似TTYを使った `bash tests/test-startup.sh` で起動条件を検証します。これはmacOSのGhostty実機表示や温度・電力計測、実btopの操作性を保証するものではありません。
 
-
 ```bash
 zsh -n "$HOME/.zshrc"
 ghostty +validate-config
