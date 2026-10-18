@@ -46,8 +46,12 @@ tty_case() {
   local name="$1" expected="$2"
   shift 2
   : > "$AURORA_TEST_LOG"
-  printf 'exit\n' | env -u CI -u SSH_CONNECTION -u AURORA_MONITOR -u AURORA_STARTUP -u AURORA_METRICS \
-    "$@" script -q -e -c 'zsh -i' /dev/null > "$tmp/output" 2>&1
+  if ! printf 'exit\n' | env -u CI -u SSH_CONNECTION -u AURORA_MONITOR -u AURORA_STARTUP -u AURORA_METRICS \
+    "$@" script -q -e -c 'zsh -i' /dev/null > "$tmp/output" 2>&1; then
+    printf 'FAIL [%s] PTY execution failed; terminal output:\n' "$name" >&2
+    cat "$tmp/output" >&2
+    exit 1
+  fi
   assert_events "$name" "$expected"
 }
 
