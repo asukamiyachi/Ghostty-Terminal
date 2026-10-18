@@ -126,5 +126,7 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=#BE8CFF'
 ZSH_HIGHLIGHT_STYLES[comment]='fg=#5F6E86'
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#39465A'
 
-# Runs only in a local interactive Ghostty shell. Disable with AURORA_STARTUP=0.
+# Runs only in a local interactive Ghostty shell.
+# AURORA_MONITOR=btop|metrics|off selects startup monitoring (default: btop).
+# AURORA_STARTUP=0 disables the entire startup HUD.
 (( $+functions[aurora_startup] )) && aurora_startup
