@@ -22,6 +22,12 @@ aurora_startup
 print -r -- post-startup >> "$AURORA_TEST_LOG"
 EOF
 
+# -f suppresses global/user rc files (the CI image can run compinit).
+# -i keeps the interactive flag; a script file keeps ZSH_EXECUTION_STRING empty.
+cat > "$tmp/harness.zsh" <<'EOF'
+source "$ZDOTDIR/.zshrc"
+EOF
+
 cat > "$tmp/bin/btop" <<'EOF'
 #!/usr/bin/env bash
 printf 'btop\n' >> "$AURORA_TEST_LOG"
@@ -46,8 +52,8 @@ tty_case() {
   local name="$1" expected="$2"
   shift 2
   : > "$AURORA_TEST_LOG"
-  if ! printf 'exit\n' | env -u CI -u SSH_CONNECTION -u AURORA_MONITOR -u AURORA_STARTUP -u AURORA_METRICS \
-    "$@" script -q -e -c 'zsh -i' /dev/null > "$tmp/output" 2>&1; then
+  if ! env -u CI -u SSH_CONNECTION -u AURORA_MONITOR -u AURORA_STARTUP -u AURORA_METRICS \
+    "$@" script -q -e -c "zsh -fi '$tmp/harness.zsh'" /dev/null </dev/null > "$tmp/output" 2>&1; then
     printf 'FAIL [%s] PTY execution failed; terminal output:\n' "$name" >&2
     cat "$tmp/output" >&2
     exit 1
@@ -74,13 +80,13 @@ fi
 tty_case 'missing btop falls back to metrics' $'metrics\npost-startup' PATH=/usr/bin:/bin
 
 : > "$AURORA_TEST_LOG"
-printf 'exit\n' | env -u CI -u SSH_CONNECTION -u AURORA_MONITOR \
-  zsh -i > "$tmp/output" 2>&1
+env -u CI -u SSH_CONNECTION -u AURORA_MONITOR \
+  zsh -fi "$tmp/harness.zsh" > "$tmp/output" 2>&1
 assert_events 'non-TTY shell skips startup' 'post-startup'
 
 : > "$AURORA_TEST_LOG"
 env -u CI -u SSH_CONNECTION -u AURORA_MONITOR \
-  zsh -ic 'exit' > "$tmp/output" 2>&1
+  zsh -fic 'source "$ZDOTDIR/.zshrc"' > "$tmp/output" 2>&1
 assert_events 'interactive -c command skips startup' 'post-startup'
 
 echo 'AURORA startup integration tests passed.'
