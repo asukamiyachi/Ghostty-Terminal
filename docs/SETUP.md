@@ -105,7 +105,7 @@ AURORA_ZPROF=1 AURORA_MONITOR=off zsh -i
 aurora_zprof
 ```
 
-`aurora_bench`は通常起動と、Startup HUD / Monitorを無効化したcore shellを比較します。全画面btopは `zsh -i -c` のようなコマンド実行用シェルでは起動しません。
+`aurora_bench`は `zsh -i -c exit` のシェル初期化時間のみを計測します。このコマンド実行用シェルではStartup HUD・btopを起動しないため、全画面btopの起動速度は計測対象外です。
 
 ## 8. Startup Monitor
 
@@ -120,6 +120,9 @@ command -v hermes
 ```
 
 ## 10. Validation
+
+LinuxのGitHub Actionsではzsh構文チェックと、擬似TTYを使った `bash tests/test-startup.sh` で起動条件を検証します。これはmacOSのGhostty実機表示や温度・電力計測、実btopの操作性を保証するものではありません。
+
 
 ```bash
 zsh -n "$HOME/.zshrc"
