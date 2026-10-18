@@ -2,6 +2,8 @@
 
 aurora_startup() {
   [[ -o interactive ]] || return 0
+  [[ -z ${ZSH_EXECUTION_STRING:-} ]] || return 0
+  [[ -t 0 && -t 1 && ${TERM:-dumb} != dumb ]] || return 0
   [[ ${AURORA_STARTUP:-1} != 0 ]] || return 0
   [[ -n ${GHOSTTY_RESOURCES_DIR:-} ]] || return 0
   [[ -z ${SSH_CONNECTION:-} && -z ${CI:-} ]] || return 0
@@ -42,9 +44,9 @@ aurora_startup() {
 
   case "${AURORA_MONITOR:-btop}" in
     btop)
-      # btop is a full-screen TUI; skip it for non-TTY and `zsh -i -c`
-      # invocations (including shell startup benchmarks).
-      if [[ -t 0 && -t 1 && -z ${ZSH_EXECUTION_STRING:-} ]] && command -v btop >/dev/null 2>&1; then
+      # btop uses the current pane's terminal screen; the caller stays in zsh
+      # after btop exits (q, or a non-zero status).
+      if command -v btop >/dev/null 2>&1; then
         command btop
       elif ! command -v btop >/dev/null 2>&1 && (( $+functions[aurora_engine_metrics] )); then
         # Preserve the old metrics HUD on machines not yet running brew bundle.
